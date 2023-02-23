@@ -1,20 +1,31 @@
 import React from "react";
 import MainLogo from "../../assets/argentBankLogo.png";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import {reset} from "../../redux/redux"
+import { useDispatch } from "react-redux";
+import {reset, relog} from "../../redux/redux"
+import { useSelector } from "react-redux";
 
 
 
 function Header() {
-  const userName = useSelector((state) => state.login.userData.firstName)
-  const dispatch = useDispatch();
+  var userNameState = useSelector((state) => state.login.userData.firstName)
+  var logged = useSelector((state) => state.login.logged)
+  const authUser = window.localStorage.getItem("authUser")
 
+
+  const dispatch = useDispatch();
+  console.log(authUser)
+  if(authUser === "true"){
+    console.log("cailloux")
+    dispatch(relog())
+  }
 
   const logOut = () => {
     console.log("logout")
     dispatch(reset())
   }
+
+  console.log(userNameState)
 
 
   return (
@@ -31,11 +42,11 @@ function Header() {
           </div>
         </Link>
         <div>
-          {userName ? (<div>
+          {logged === true || authUser === "true" ? (<div>
 
-            <Link to="/" className="main-nav-item">
+            <Link to="/user" className="main-nav-item">
               <i className="fa fa-user-circle"></i>
-              {userName}{"        "}</Link>
+              {userNameState}{"        "}</Link>
               <Link className="main-nav-item" to="/" onClick={logOut}>
                 <i className="fa fa-sign-out"></i> Sign Out
               </Link>

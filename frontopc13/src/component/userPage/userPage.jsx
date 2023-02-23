@@ -1,21 +1,38 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import ModalChangeName from "../modalChangeName/modalChangeName"
+import Modalrelog from "../modalrelog/modalrelog";
+import { useDispatch } from "react-redux";
+import { showModalNeedRelog, showModalChangeName} from "../../redux/redux";
+
+
+
 
 
 function UserPage(props) {
   const firstName = useSelector((state) => state.login.userData.firstName)
   const lastName = useSelector((state) => state.login.userData.name)
-  const logged = useSelector((state) => state.login.logged)
-  const Navigate = useNavigate()
+  const logged = useSelector((state) => state.login.logged);
+  const expiredToekn = useSelector((state) => state.login.expiredToekn);
 
+  const authUser = window.localStorage.getItem("authUser")
+
+  const dispatch = useDispatch();
+
+
+console.log(logged)
+console.log(authUser)
 
 
   console.log(lastName)
-if(!logged){
+if(logged === false || authUser === false){
   return (
     <p> Veuillez vous identifier pour acceder aux informations de votre compte</p>
   )
+}
+ if(expiredToekn === true){
+  dispatch(showModalNeedRelog())
 }
 
   return (
@@ -26,8 +43,15 @@ if(!logged){
             Welcome back
             <br />
             <p>{firstName + " " + lastName}</p>
+            <ModalChangeName />
+            <Modalrelog />
+
           </h1>
-          <button className="edit-button">Edit Name</button>
+          <button onClick={(e) => {
+              e.preventDefault();
+              dispatch(showModalChangeName());
+            }
+            } className="edit-button">Edit Name</button>
         </div>
         <h2 className="sr-only">Accounts</h2>
         <section className="account">

@@ -6,27 +6,36 @@ import { loginUser } from "../../redux/redux";
 import { useNavigate } from "react-router-dom";
 
 function SigninPage(props) {
-    const token = useSelector((state) => state.login.token)
-    const email = useSelector((state) => state.login.userData.email)
-    const errorLog = useSelector((state) => state.login.errorLog)
-    const logged = useSelector((state) => state.login.logged)
-
+  const token = useSelector((state) => state.login.token);
+  const email = useSelector((state) => state.login.userData.email);
+  const errorLog = useSelector((state) => state.login.errorLog);
+  const logged = useSelector((state) => state.login.logged);
+  const authUser = window.localStorage.getItem("authUser")
 
   const dispatch = useDispatch();
-  const Navigate = useNavigate()
+  const Navigate = useNavigate();
 
   const [log, setLog] = useState("");
-  const [mdp, setMdp] = useState("")
+  const [mdp, setMdp] = useState("");
+  const [remember, setRemember] = useState(false);
 
-  function redirect(){
-    if(logged){
-      Navigate("/user")
+  const handleCheckboxChange = (event) => {
+    setRemember(event.target.checked);
+  };
+
+  function redirect() {
+    if (logged) {
+      Navigate("/user");
     }
   }
   useEffect(() => {
-    console.log("useeffect")
-    redirect()
-  },[logged])
+    console.log("useeffect");
+    redirect();
+  }, [logged]);
+
+  // console.log(remember);
+
+
 
   return (
     <>
@@ -40,35 +49,48 @@ function SigninPage(props) {
             onSubmit={(e) => {
               console.log("onsub");
               e.preventDefault();
-              dispatch(loginUser(log, mdp));
-              ;
+              dispatch(loginUser(log, mdp, remember));
             }}
           >
             <div className="input-wrapper">
               <label htmlFor="username">Username</label>
-              <input type="text" id="username"
-              onChange={(e) => setLog(e.target.value)}/>
-              
+              <input
+                type="text"
+                id="username"
+                onChange={(e) => setLog(e.target.value)}
+              />
             </div>
             <div className="input-wrapper">
               <label htmlFor="password">Password</label>
-              <input type="password" id="password" 
-              onChange={(e) => setMdp(e.target.value)}
+              <input
+                type="password"
+                id="password"
+                onChange={(e) => setMdp(e.target.value)}
               />
             </div>
             <div className="input-remember">
-              <input type="checkbox" id="remember-me" />
+              <input
+                type="checkbox"
+                id="remember-me"
+                checked={remember}
+                onChange={handleCheckboxChange}
+              />
               <label htmlFor="remember-me">Remember me</label>
             </div>
             <button className="sign-in-button" type="submit">
               Sign In
             </button>
-            <p>{errorLog === true ? "Une erreur d'indentifiant est detectée, veuillez essayer de vous connecter à nouveau" : ""}</p>
+            <p>
+              {errorLog === true
+                ? "Une erreur d'indentifiant est detectée, veuillez essayer de vous connecter à nouveau"
+                : ""}
+            </p>
           </form>
         </section>
       </main>
     </>
   );
 }
+
 
 export default SigninPage;

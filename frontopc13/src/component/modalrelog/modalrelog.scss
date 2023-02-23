@@ -1,0 +1,36 @@
+.modalrelogBg {
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(212, 212, 212);
+  opacity: 0.4;
+}
+
+.modalrelogContent {
+  position: absolute;
+  width: 50%;
+  height: 250px;
+  background-color: #12002b;
+  top: 150px;
+  left: 25%;
+}
+
+.modalrelogContent {
+  margin: auto;
+  padding-top: 30px;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  p {
+    font-size: large;
+    width: 80%;
+    margin: auto;
+  }
+
+  button {
+    width: 80%;
+    margin-top: 30px;
+    margin: auto;
+  }
+}
