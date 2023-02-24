@@ -9,6 +9,144 @@ basePath: /api/v1
 schemes:
   - http
 paths:
+  /transactions:
+    get:
+      tags:
+        - Transactions
+      summary: Retrieve all transactions for the current month
+      description: Returns a list of all transactions for the current month
+      parameters:
+        - in: header
+          name: Authorization
+          description: Authentication token
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success. Returns a list of transactions
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Transaction"
+        "404":
+          description: No transactions found for the current month
+    post:
+      tags:
+        - Transactions
+      summary: Add a new transaction
+      description: Adds a new transaction.
+      parameters:
+        - in: header
+          name: Authorization
+          description: Authentication token
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Data for the new transaction
+          required: true
+          schema:
+            $ref: "#/definitions/TransactionInput"
+      responses:
+        "201":
+          description: Success. Returns details of the new transaction
+          schema:
+            $ref: "#/definitions/Transaction"
+          example:
+            id: "12345"
+            montant: 1200.50
+            date: "2023-02-01T10:30:00Z"
+            type: "débit"
+            libelle: "Achat de nourriture pour animaux"
+        "400":
+          description: Invalid request.
+        "401":
+          description: Unauthorized.
+        "500":
+          description: Internal server error.
+  /transactions/{id}:
+    get:
+      tags:
+        - Transactions
+      summary: Retrieve details of a transaction
+      description: Returns details of a transaction based on its ID.
+      parameters:
+        - in: path
+          name: id
+          description: Transaction ID
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: Authorization
+          description: Authentication token
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Transaction details.
+          schema:
+              $ref: "#/definitions/Transaction"
+        "404":
+          description: Transaction not found.
+    patch:
+      tags:
+        - Transactions
+      summary: Modify an existing transaction
+      description: Modifies missing information of an existing transaction.
+      parameters:
+        - in: path
+          name: id
+          description: Transaction ID
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: Authorization
+          description: Authentication token
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Data for the transaction to modify
+          required: true
+          schema:
+              $ref: "#/definitions/TransactionPatch"
+      responses:
+        "200":
+          description: Success. Returns details of the modified transaction.
+          schema:
+            $ref: "#/definitions/Transaction"
+        "404":
+          description: Transaction not found.
+    delete:
+      tags:
+        - Transactions
+      summary: Supprimer une transaction existante
+      description: Supprime une transaction existante à partir de son identifiant.
+      parameters:
+        - in: path
+          name: id
+          description: Identifiant de la transaction
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: Authorization
+          description: Token d'authentification
+          required: true
+          type: string
+      responses:
+        "204":
+          description: Succès. La transaction a été supprimée.
+        "404":
+          description: Transaction introuvable.
+        "401":
+          description: Non autorisé.
+        "500":
+          description: Erreur serveur interne.
+
+
   /user/login:
     post:
       tags:
@@ -116,6 +254,39 @@ securityDefinitions:
     name: Authorization
     in: header
 definitions:
+  Transaction:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Identifiant de la transaction.
+      montant:
+        type: number
+        description: Montant de la transaction.
+      date:
+        type: string
+        format: date-time
+        description: Date de la transaction.
+      type:
+        type: string
+        description: Type de la transaction (débit ou crédit).
+      libelle:
+        type: string
+        description: Libellé de la transaction.
+    example:
+      id: "1234"
+      montant: 1100.50
+      date: "2023-02-23T15:56:00Z"
+      type: "débit"
+      libelle: "Achat de nourriture pour animaux"
+  TransactionPatch:
+    type: object
+    properties:
+      libelle:
+        type: string
+        description: Libellé de la transaction
+    example:
+      libelle: "Achat de nourriture pour animaux"
   User:
     properties:
       email:
@@ -130,6 +301,31 @@ definitions:
       lastName:
         type: string
         description: user last name
+  TransactionInput:
+    type: object
+    properties:
+      montant:
+        type: number
+        description: Montant de la transaction.
+        example: 1200.50
+      date:
+        type: string
+        format: date-time
+        description: Date de la transaction.
+        example: "2023-02-01T10:30:00Z"
+      type:
+        type: string
+        description: Type de la transaction (débit ou crédit).
+        example: "débit"
+      libelle:
+        type: string
+        description: Libellé de la transaction.
+        example: "Achat de nourriture pour animaux"
+    required:
+      - montant
+      - date
+      - type
+
   Login:
     properties:
       email:
