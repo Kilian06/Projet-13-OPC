@@ -1,12 +1,15 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { hideModalNeedRelog, reset } from "../../redux/redux";
+import { reset } from "../../redux/redux";
 import { useNavigate } from "react-router-dom";
 
-function Modalrelog(props) {
-  const showModal = useSelector((state) => state.login.modal.needrelog);
+/**
+ * Fonction qui permet d'afficher la modal lorsqu'un relog est necessaire
+ * @returns 
+ */
 
-
+function Modalrelog() {
+  const showModal = useSelector((state) => state.login.expiredToekn); // récupère l'information d'un statut 201
   const dispatch = useDispatch();
   const Navigate = useNavigate();
 
@@ -23,7 +26,6 @@ function Modalrelog(props) {
               className="transaction-button"
               onClick={(e) => {
                 e.preventDefault();
-                dispatch(hideModalNeedRelog());
                 dispatch(reset());
                 Navigate("/sign-in");
               }}

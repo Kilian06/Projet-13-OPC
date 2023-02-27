@@ -30,8 +30,7 @@ export async function infoUser(token) {
 
     return result;
   } catch (error){
-    console.log(error)
-    throw error;
+
   }
 }
 
@@ -46,6 +45,7 @@ export async function updateInfoUser(token, newFirstName, newLastName) {
     const response = await fetch(urlApiUpdateUserInfo, {
       method: "PUT",
       headers: {
+        // Authorization: `Bearer ${"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZGJhOTJkNTMxZDBlNTdiZWQ1YTJhZSIsImlhdCI6MTY3NjkwNjQ5OSwiZXhwIjoxNjc2OTkyODk5fQ.8nIH-8vVqT8eUuCkD4GTmYNz3XATTxkBxjyY8_WXIwY"}`,
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },

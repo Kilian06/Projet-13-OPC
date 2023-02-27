@@ -1,39 +1,29 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import ModalChangeName from "../modalChangeName/modalChangeName"
+import ModalChangeName from "../modalChangeName/modalChangeName";
 import Modalrelog from "../modalrelog/modalrelog";
 import { useDispatch } from "react-redux";
-import { showModalNeedRelog, showModalChangeName} from "../../redux/redux";
-
-
-
-
-
-function UserPage(props) {
-  const firstName = useSelector((state) => state.login.userData.firstName)
-  const lastName = useSelector((state) => state.login.userData.name)
-  const logged = useSelector((state) => state.login.logged);
-  const expiredToekn = useSelector((state) => state.login.expiredToekn);
-
-  const authUser = window.localStorage.getItem("authUser")
-
+import { showModalChangeName } from "../../redux/redux";
+/**
+ * Page qui permet d'afficher les informations de l'utilisateur suite à la connexion
+ * @returns le contenu de la page d'un utilisateur
+ */
+function UserPage() {
+  const firstName = useSelector((state) => state.login.userData.firstName); // Récupère le prenom du state
+  const lastName = useSelector((state) => state.login.userData.name); // Récupère le nom du state
+  const logged = useSelector((state) => state.login.logged); // Récupère si le user est loggé via le state
+  const authUser = window.localStorage.getItem("authUser"); // Récupère si le user est loggé via le localStorage
   const dispatch = useDispatch();
 
-
-console.log(logged)
-console.log(authUser)
-
-
-  console.log(lastName)
-if(logged === false || authUser === false){
-  return (
-    <p> Veuillez vous identifier pour acceder aux informations de votre compte</p>
-  )
-}
- if(expiredToekn === true){
-  dispatch(showModalNeedRelog())
-}
+  // permet d'afficher le message si le user n'est pas connecté
+  if (logged === false || authUser === false) {
+    return (
+      <p>
+        {" "}
+        Veuillez vous identifier pour acceder aux informations de votre compte
+      </p>
+    );
+  }
 
   return (
     <div>
@@ -45,13 +35,16 @@ if(logged === false || authUser === false){
             <p>{firstName + " " + lastName}</p>
             <ModalChangeName />
             <Modalrelog />
-
           </h1>
-          <button onClick={(e) => {
+          <button
+            onClick={(e) => {
               e.preventDefault();
               dispatch(showModalChangeName());
-            }
-            } className="edit-button">Edit Name</button>
+            }}
+            className="edit-button"
+          >
+            Edit Name
+          </button>
         </div>
         <h2 className="sr-only">Accounts</h2>
         <section className="account">
