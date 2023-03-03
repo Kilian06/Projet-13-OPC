@@ -21,7 +21,6 @@ function ModalChangeName(props) {
           <form
             className="modalContentForm"
             onSubmit={(e) => {
-              console.log("ici 1");
               e.preventDefault();
               dispatch(updateUser(token, newName, newFirstName));
               dispatch(hideModalChangeName());
@@ -44,7 +43,7 @@ function ModalChangeName(props) {
               id="newLast"
               onChange={(e) => setNewName(e.target.value)}
             ></input>
-            <button className="transaction-button" d type="submit">
+            <button className="transaction-button" type="submit">
               Valider
             </button>
             <button

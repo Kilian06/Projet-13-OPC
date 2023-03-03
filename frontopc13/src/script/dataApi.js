@@ -12,7 +12,6 @@ export async function getUserApi(log, mdp) {
 
     return result;
   } catch(error) {
-    console.log(error)
     throw error;
   }
 }
@@ -40,7 +39,6 @@ export async function updateInfoUser(token, newFirstName, newLastName) {
     firstName: newFirstName,
     lastName: newLastName,
   });
-  console.log(raw);
   try {
     const response = await fetch(urlApiUpdateUserInfo, {
       method: "PUT",

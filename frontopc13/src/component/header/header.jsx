@@ -14,18 +14,13 @@ function Header() {
 
 
   const dispatch = useDispatch();
-  console.log(authUser)
   if(authUser === "true"){
-    console.log("cailloux")
     dispatch(relog())
   }
 
   const logOut = () => {
-    console.log("logout")
     dispatch(reset())
   }
-
-  console.log(userNameState)
 
 
   return (
@@ -44,7 +39,7 @@ function Header() {
         <div>
           {logged === true || authUser === "true" ? (<div>
 
-            <Link to="/user" className="main-nav-item">
+            <Link to="/profile" className="main-nav-item">
               <i className="fa fa-user-circle"></i>
               {userNameState}{"        "}</Link>
               <Link className="main-nav-item" to="/" onClick={logOut}>
@@ -52,7 +47,7 @@ function Header() {
               </Link>
             </div>
           ) : (
-            <Link to="/sign-in" className="main-nav-item">
+            <Link to="/login" className="main-nav-item">
               <i className="fa fa-user-circle"></i>
               Sign In
             </Link>

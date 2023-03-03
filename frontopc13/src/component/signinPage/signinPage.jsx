@@ -25,15 +25,13 @@ function SigninPage(props) {
 
   function redirect() {
     if (logged) {
-      Navigate("/user");
+      Navigate("/profile");
     }
   }
   useEffect(() => {
-    console.log("useeffect");
     redirect();
   }, [logged]);
 
-  // console.log(remember);
 
 
 
@@ -47,7 +45,6 @@ function SigninPage(props) {
           <p>password123</p>
           <form
             onSubmit={(e) => {
-              console.log("onsub");
               e.preventDefault();
               dispatch(loginUser(log, mdp, remember));
             }}

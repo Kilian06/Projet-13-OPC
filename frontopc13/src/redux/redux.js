@@ -82,7 +82,6 @@ const loginSlice = createSlice({ // Création de la slice login
       state.errorLog = false;
     });
     builder.addCase(fetchLogin.fulfilled, (state, action) => {
-      console.log(action);
       state.logged = true;
       state.authUser = action.payload.remember;
       window.localStorage.setItem("authUser", state.authUser);
@@ -99,7 +98,6 @@ const loginSlice = createSlice({ // Création de la slice login
       }
     });
     builder.addCase(fetchLogin.rejected, (state, action) => {
-      console.log(action);
       state.errorLog = true;
       state.loading = false;
     });
@@ -128,7 +126,6 @@ export const loginUser = (log, mdp, remember) => (dispatch) => {
 };
 
 export const updateUser = (token, newFirstName, newLastName) => (dispatch) => {
-  console.log("ici 12");
   dispatch(fetchUpdateInfo({ token, newFirstName, newLastName }));
 };
 
