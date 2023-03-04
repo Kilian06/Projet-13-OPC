@@ -6,11 +6,8 @@ import { loginUser } from "../../redux/redux";
 import { useNavigate } from "react-router-dom";
 
 function SigninPage(props) {
-  const token = useSelector((state) => state.login.token);
-  const email = useSelector((state) => state.login.userData.email);
   const errorLog = useSelector((state) => state.login.errorLog);
   const logged = useSelector((state) => state.login.logged);
-  const authUser = window.localStorage.getItem("authUser")
 
   const dispatch = useDispatch();
   const Navigate = useNavigate();

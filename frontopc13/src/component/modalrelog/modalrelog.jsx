@@ -27,7 +27,7 @@ function Modalrelog() {
               onClick={(e) => {
                 e.preventDefault();
                 dispatch(reset());
-                Navigate("/sign-in");
+                Navigate("/login");
               }}
             >
               Se reconnecter
